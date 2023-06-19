@@ -1,12 +1,20 @@
-import 'package:campus_market_place/pages/home_page.dart';
+import 'package:campus_market_place/services/auth_page.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp( DevicePreview(
-    enabled: true,
-    builder: (context) => const MyApp(), // Wrap your app
-  ),);
+
+Future <void> main() async {
+    WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(apiKey: "AIzaSyBrIJtEZ2ODCsEDLWgS98E-G7jgFxKXmUA", appId: "com.example.campus_market_place", messagingSenderId: "455772269441-0ip872orhvb8lnfb4gdsmnk0g19suiho.apps.googleusercontent.com", projectId: "localsell-d4193")
+  );
+  runApp(
+    DevicePreview(
+      enabled: true,
+      builder: (context) => const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -15,7 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Home(),
+      home: AuthPage(),
     );
   }
 }

@@ -1,42 +1,50 @@
+import 'package:campus_market_place/components/beta_widgets.dart';
 import 'package:campus_market_place/pages/sign_up.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final emailController = TextEditingController();
+
+  final passwordController = TextEditingController();
+  void signIn() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim());
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Center(
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // const Text("Welcome to jShop"),
-              // const Center(
-              //     child: Icon(
-              //   Icons.lock,
-              //   color: Colors.black,
-              //   size: 100,
-              // )),
               const SizedBox(
-                height: 20,
+                height: 50,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: RichText(
-                    text:  TextSpan(
-                        style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 45,
-                          letterSpacing: 3,
-                          color: Colors.grey.shade700
-                        ),
-                        children: const [
-                      TextSpan(text: "Welcome Back !"),
-                     
-                    ])),
-              ),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    "Welcome Back!",
+                    style: GoogleFonts.lato(
+                        textStyle: const TextStyle(
+                            fontSize: 70, fontWeight: FontWeight.w900)),
+                  )),
               const SizedBox(
                 height: 10,
               ),
@@ -55,6 +63,7 @@ class LoginPage extends StatelessWidget {
                       color: Colors.grey.shade200,
                       borderRadius: BorderRadius.circular(10)),
                   child: TextField(
+                    controller: emailController,
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Email',
@@ -73,6 +82,7 @@ class LoginPage extends StatelessWidget {
                       color: Colors.grey.shade200,
                       borderRadius: BorderRadius.circular(10)),
                   child: TextField(
+                    controller: passwordController,
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Password',
@@ -104,19 +114,23 @@ class LoginPage extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Colors.deepOrange,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 15),
-                      child: Text(
-                        "Sign in",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                    )),
+                child: GestureDetector(
+                  onTap: signIn,
+                  child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: Text("Sign in",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.lato(
+                              textStyle: const TextStyle(
+                                  color: Colors.white, fontSize: 20),
+                            )),
+                      )),
+                ),
               ),
               const SizedBox(
                 height: 10,
@@ -158,6 +172,15 @@ class LoginPage extends StatelessWidget {
                     )),
                   ],
                 ),
+              ),
+              const SizedBox(height: 20,),
+               const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  LoginOptionTile(imageUrl: "assets/google.png"),
+                  SizedBox(width: 20,),
+                  LoginOptionTile(imageUrl: "assets/apple.png",),
+                ],
               )
             ],
           ),

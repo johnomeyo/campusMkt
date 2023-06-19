@@ -2,24 +2,6 @@ import 'package:campus_market_place/pages/sign_up.dart';
 import 'package:flutter/material.dart';
 
 import 'login_page.dart';
-// class Home extends StatelessWidget {
-//   const Home({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return  Scaffold(
-//       backgroundColor: Colors.grey.shade900,
-//       body: const Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         crossAxisAlignment: CrossAxisAlignment.center,
-//         children: [
-//         Align(
-//           alignment: Alignment.center,
-//           child: Text("Start your journey with jShop",textAlign: TextAlign.center,style: TextStyle(color: Colors.white, fontSize: 25,letterSpacing: 3, ),))
-//       ],),
-//     );
-//   }
-// }
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
 

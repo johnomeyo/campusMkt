@@ -1,0 +1,155 @@
+import 'package:campus_market_place/components/alpha_widgets.dart';
+import 'package:campus_market_place/messages/my_messages.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../payment/payment_page.dart';
+
+class ProductDisplayPage extends StatelessWidget {
+  const ProductDisplayPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          Container(
+            height: 300,
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadiusDirectional.only(
+                    bottomStart: Radius.circular(20),
+                    bottomEnd: Radius.circular(20)),
+                color: Colors.grey,
+                image: DecorationImage(
+                    image: NetworkImage(
+                        "https://images.unsplash.com/photo-1553545985-1e0d8781d5db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=394&q=80"),
+                    fit: BoxFit.cover)),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  MyBackButton(),
+                  MyFavoriteIcon(),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Autumn Shoes",
+                  style: GoogleFonts.abhayaLibre(
+                      textStyle: const TextStyle(
+                          fontWeight: FontWeight.w900, fontSize: 30)),
+                ),
+                Text(
+                  "Ksh. 1400",
+                  style: GoogleFonts.abhayaLibre(
+                      textStyle: const TextStyle(
+                          fontWeight: FontWeight.w900, fontSize: 30)),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ProductQualitiesTile(
+                  quality: 'size',
+                  value: '9.5',
+                ),
+                ProductQualitiesTile(
+                  quality: 'heel',
+                  value: '5 cm',
+                ),
+                ProductQualitiesTile(
+                  quality: 'width',
+                  value: 'AA',
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+                "I sell comfortable autumn boots. I have only worn them for one season so they are in good condition. Ready To sell for your price.",
+                style: GoogleFonts.adamina(
+                  textStyle: const TextStyle(fontSize: 15, letterSpacing: 1),
+                )),
+          ),
+        ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            //Buy now button
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const PaymentPage()));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                  child: Text("Buy now",
+                      style: GoogleFonts.lato(
+                        textStyle: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w900),
+                      )),
+                ),
+              ),
+            ),
+            //chat with the seller button
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MyMessages()));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.lightGreenAccent,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                  child: Text("Chat with seller",
+                      style: GoogleFonts.lato(
+                        textStyle: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w900),
+                      )),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -177,9 +177,9 @@ class _LoginPageState extends State<LoginPage> {
                const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  LoginOptionTile(imageUrl: "assets/google.png"),
+                  LoginOptionTile(imageUrl: "assets/google (2).png"),
                   SizedBox(width: 20,),
-                  LoginOptionTile(imageUrl: "assets/apple.png",),
+                  LoginOptionTile(imageUrl: "assets/apple (2).png",),
                 ],
               )
             ],

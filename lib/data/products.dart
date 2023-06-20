@@ -76,5 +76,16 @@ List<Product> products = [
           "I sell comfortable autumn boots. I have only worn them for one season so they are in good condition. Ready To sell for your price.",
       imageUrl:
           "https://images.unsplash.com/photo-1581283177406-be33dee67044?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dmVnZXN0YWJsZXN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"),
+                    Product(
+      name: "Dope caps",
+      price: "Ksh 400",
+      sellerName: "Eazy G",
+      size: "L",
+      mileage: "New",
+      width: "30cm",
+      description:
+          "I sell comfortable autumn boots. I have only worn them for one season so they are in good condition. Ready To sell for your price.",
+      imageUrl:
+          "https://images.unsplash.com/photo-1589831377283-33cb1cc6bd5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGNhcHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"),
 
 ];

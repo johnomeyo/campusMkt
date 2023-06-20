@@ -3,11 +3,12 @@ import 'package:campus_market_place/messages/my_messages.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../data/products.dart';
 import '../payment/payment_page.dart';
 
 class ProductDisplayPage extends StatelessWidget {
-  const ProductDisplayPage({super.key});
-
+  const ProductDisplayPage({super.key, required this.product});
+  final Product product;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,14 +16,15 @@ class ProductDisplayPage extends StatelessWidget {
         children: [
           Container(
             height: 300,
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadiusDirectional.only(
+            decoration: BoxDecoration(
+                borderRadius: const BorderRadiusDirectional.only(
                     bottomStart: Radius.circular(20),
                     bottomEnd: Radius.circular(20)),
                 color: Colors.grey,
                 image: DecorationImage(
-                    image: NetworkImage(
-                        "https://images.unsplash.com/photo-1553545985-1e0d8781d5db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=394&q=80"),
+                    image: NetworkImage(product.imageUrl
+                        // "https://images.unsplash.com/photo-1553545985-1e0d8781d5db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=394&q=80"
+                        ),
                     fit: BoxFit.cover)),
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -42,13 +44,13 @@ class ProductDisplayPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Autumn Shoes",
+                  product.name,
                   style: GoogleFonts.abhayaLibre(
                       textStyle: const TextStyle(
                           fontWeight: FontWeight.w900, fontSize: 30)),
                 ),
                 Text(
-                  "Ksh. 1400",
+                  product.price,
                   style: GoogleFonts.abhayaLibre(
                       textStyle: const TextStyle(
                           fontWeight: FontWeight.w900, fontSize: 30)),
@@ -59,22 +61,22 @@ class ProductDisplayPage extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          const Padding(
-            padding: EdgeInsets.all(10.0),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ProductQualitiesTile(
                   quality: 'size',
-                  value: '9.5',
+                  value: product.size,
                 ),
                 ProductQualitiesTile(
                   quality: 'heel',
-                  value: '5 cm',
+                  value: product.mileage,
                 ),
                 ProductQualitiesTile(
                   quality: 'width',
-                  value: 'AA',
+                  value: product.width,
                 ),
               ],
             ),
@@ -85,7 +87,8 @@ class ProductDisplayPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Text(
-                "I sell comfortable autumn boots. I have only worn them for one season so they are in good condition. Ready To sell for your price.",
+                // "I sell comfortable autumn boots. I have only worn them for one season so they are in good condition. Ready To sell for your price.",
+                product.description,
                 style: GoogleFonts.adamina(
                   textStyle: const TextStyle(fontSize: 15, letterSpacing: 1),
                 )),

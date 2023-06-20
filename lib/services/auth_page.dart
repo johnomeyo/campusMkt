@@ -1,4 +1,3 @@
-import 'package:campus_market_place/data/products.dart';
 import 'package:campus_market_place/pages/login_page.dart';
 import 'package:campus_market_place/tabs/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';

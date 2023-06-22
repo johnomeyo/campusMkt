@@ -24,22 +24,13 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        FirebaseAuth.instance.signOut();
-                      },
-                      child: const Text("L")),
-                  Text("Hello ,${user.email!}",
-                      style: GoogleFonts.lato(
-                        textStyle: const TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 2),
-                      )),
-                ],
-              ),
+              Text("Hello ,${user.email!}",
+                  style: GoogleFonts.lato(
+                    textStyle: const TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 2),
+                  )),
               const SizedBox(
                 height: 10,
               ),

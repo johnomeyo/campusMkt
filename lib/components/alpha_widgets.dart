@@ -1,4 +1,6 @@
+import 'package:campus_market_place/providers.dart/alpha.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MyBackButton extends StatelessWidget {
   const MyBackButton({super.key});
@@ -25,39 +27,59 @@ class MyBackButton extends StatelessWidget {
   }
 }
 
-class MyFavoriteIcon extends StatefulWidget {
-  const MyFavoriteIcon({super.key});
+// class MyFavoriteIcon extends StatelessWidget {
+//   const MyFavoriteIcon({super.key});
 
-  @override
-  State<MyFavoriteIcon> createState() => _MyFavoriteIconState();
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//         onTap: () {
+          
+//         },
+//         child: Container(
+//             height: 40,
+//             width: 40,
+//             decoration: BoxDecoration(
+//                 border: Border.all(color: Colors.grey.shade200),
+//                 color: Colors.white,
+//                 borderRadius: BorderRadius.circular(10)),
+//             child: Center(
+//               child: Icon(
+//                 isTapped ? Icons.favorite : Icons.favorite_outline_outlined,
+//                 color: Colors.black,
+//               ),
+//             )));
+//   }
+// }
+class MyFavoriteIcon extends StatelessWidget {
+  const MyFavoriteIcon({Key? key});
 
-class _MyFavoriteIconState extends State<MyFavoriteIcon> {
-    bool isTapped = false;
   @override
   Widget build(BuildContext context) {
-  
+    final favIcon = Provider.of<FavIcon>(context);
+    final isFav = favIcon.isFav;
+
     return GestureDetector(
       onTap: () {
-        setState(() {
-          isTapped = !isTapped;
-        });
+        bool updatedValue = favIcon.changeisFav();
+        print('Is Favorite: $updatedValue');
       },
       child: Container(
-          height: 40,
-          width: 40,
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade200),
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10)),
-          child: Center(
-              
-              child: Icon(
-                isTapped? Icons.favorite:
-                Icons.favorite_outline_outlined,color: Colors.black,
-              ),
-          )));
-  
+        height: 40,
+        width: 40,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.shade200),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Center(
+          child: Icon(
+            isFav ? Icons.favorite : Icons.favorite_outline_outlined,
+            color: Colors.black,
+          ),
+        ),
+      ),
+    );
   }
 }
 

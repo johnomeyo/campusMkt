@@ -1,7 +1,10 @@
+import 'package:campus_market_place/pages/user_info_page.dart';
+import 'package:campus_market_place/providers.dart/alpha.dart';
 import 'package:campus_market_place/services/auth_page.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 
 
 Future <void> main() async {
@@ -12,7 +15,11 @@ Future <void> main() async {
   runApp(
     DevicePreview(
       enabled: true,
-      builder: (context) => const MyApp(),
+      builder: (context) => MultiProvider(providers: [
+       ChangeNotifierProvider(create: (context) => UserProvider()),
+       ChangeNotifierProvider(create: (context) => FavIcon()),
+      ],
+      child: const MyApp()),
     ),
   );
 }

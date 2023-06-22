@@ -1,5 +1,5 @@
 import 'package:campus_market_place/pages/login_page.dart';
-import 'package:campus_market_place/tabs/home.dart';
+import 'package:campus_market_place/tabs/navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +13,7 @@ class AuthPage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return const HomePage(
-              // product: products[],
+            return const MyHomePage(
             );
           } else {
             return const LoginPage();

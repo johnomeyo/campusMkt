@@ -10,7 +10,7 @@ class MyMessages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlue.shade50,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
@@ -36,7 +36,7 @@ class MyMessages extends StatelessWidget {
             ),
             Expanded(
                 child: ListView.builder(
-                    itemCount: 10,
+                    itemCount: 1,
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {

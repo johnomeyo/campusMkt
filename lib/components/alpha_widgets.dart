@@ -11,7 +11,7 @@ class MyBackButton extends StatelessWidget {
         height: 40,
         width: 40,
         decoration: BoxDecoration(
-           border: Border.all(color: Colors.grey.shade200),
+          border: Border.all(color: Colors.grey.shade200),
           borderRadius: BorderRadius.circular(10),
           color: Colors.white,
         ),
@@ -25,22 +25,39 @@ class MyBackButton extends StatelessWidget {
   }
 }
 
-class MyFavoriteIcon extends StatelessWidget {
+class MyFavoriteIcon extends StatefulWidget {
   const MyFavoriteIcon({super.key});
 
   @override
+  State<MyFavoriteIcon> createState() => _MyFavoriteIconState();
+}
+
+class _MyFavoriteIconState extends State<MyFavoriteIcon> {
+    bool isTapped = false;
+  @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 40,
-        width: 40,
-        decoration: BoxDecoration(
-           border: Border.all(color: Colors.grey.shade200),
-            color: Colors.white, borderRadius: BorderRadius.circular(10)),
-        child: Center(
-            child: Icon(
-          Icons.favorite_outline_outlined,
-          color: Colors.grey.shade500,
-        )));
+  
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isTapped = !isTapped;
+        });
+      },
+      child: Container(
+          height: 40,
+          width: 40,
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey.shade200),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10)),
+          child: Center(
+              
+              child: Icon(
+                isTapped? Icons.favorite:
+                Icons.favorite_outline_outlined,color: Colors.black,
+              ),
+          )));
+  
   }
 }
 
@@ -79,11 +96,10 @@ class ProductQualitiesTile extends StatelessWidget {
     );
   }
 }
+
 class CallButton extends StatelessWidget {
   const CallButton({super.key});
-void call(){
-
-}
+  void call() {}
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

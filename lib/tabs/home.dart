@@ -94,12 +94,16 @@ class _HomePageState extends State<HomePage> {
                               mainAxisSpacing: 10,
                               crossAxisSpacing: 10),
                       itemBuilder: (context, index) {
-                        return ProductCard(product: products[index],);
+                        return ProductCard(
+                          product: products[index],
+                        );
                       }))
             ],
           ),
         ),
       ),
+      
     );
+    
   }
 }

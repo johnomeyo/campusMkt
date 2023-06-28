@@ -27,42 +27,14 @@ class MyBackButton extends StatelessWidget {
   }
 }
 
-// class MyFavoriteIcon extends StatelessWidget {
-//   const MyFavoriteIcon({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//         onTap: () {
-          
-//         },
-//         child: Container(
-//             height: 40,
-//             width: 40,
-//             decoration: BoxDecoration(
-//                 border: Border.all(color: Colors.grey.shade200),
-//                 color: Colors.white,
-//                 borderRadius: BorderRadius.circular(10)),
-//             child: Center(
-//               child: Icon(
-//                 isTapped ? Icons.favorite : Icons.favorite_outline_outlined,
-//                 color: Colors.black,
-//               ),
-//             )));
-//   }
-// }
 class MyFavoriteIcon extends StatelessWidget {
-  const MyFavoriteIcon({Key? key});
+  const MyFavoriteIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final favIcon = Provider.of<FavIcon>(context);
-    final isFav = favIcon.isFav;
-
     return GestureDetector(
       onTap: () {
-        bool updatedValue = favIcon.changeisFav();
-        print('Is Favorite: $updatedValue');
+        Provider.of<FavIcon>(context, listen: false).changeisFav();
       },
       child: Container(
         height: 40,
@@ -72,11 +44,15 @@ class MyFavoriteIcon extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Center(
-          child: Icon(
-            isFav ? Icons.favorite : Icons.favorite_outline_outlined,
-            color: Colors.black,
-          ),
+        child: Consumer<FavIcon>(
+          builder: (BuildContext context, value, Widget? child) {
+            return Center(
+              child: Icon(
+                value.isFav ? Icons.favorite : Icons.favorite_outline_outlined,
+                color: Colors.black,
+              ),
+            );
+          },
         ),
       ),
     );

@@ -1,8 +1,7 @@
+import 'package:campus_market_place/components/gamma_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../pages/user_info_page.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
@@ -22,12 +21,12 @@ class _UserProfileState extends State<UserProfile> {
         child: Column(
           children: [
             const SizedBox(
-              height: 50,
+              height: 20,
             ),
             Text("Profile",
                 style: GoogleFonts.lato(
                   textStyle: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
+                      fontSize: 30, fontWeight: FontWeight.bold),
                 )),
             const SizedBox(
               height: 30,
@@ -53,7 +52,7 @@ class _UserProfileState extends State<UserProfile> {
               height: 10,
             ),
             Text(
-              user.email.toString(),
+              '@${user.email}',
               style: TextStyle(color: Colors.grey.shade500),
             ),
             const SizedBox(
@@ -61,8 +60,8 @@ class _UserProfileState extends State<UserProfile> {
             ),
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.lightGreenAccent,
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.blue.shade800,
               ),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -70,20 +69,80 @@ class _UserProfileState extends State<UserProfile> {
                     child: Text("Edit Profile",
                         style: GoogleFonts.lato(
                           textStyle: const TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
                         ))),
               ),
             ),
-            TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => UserDataDisplay()));
-                },
-                child: const Text("Information"))
+            const SizedBox(
+              height: 30,
+            ),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Divider(),
+            ),
+            UserProfileWidgets(
+              icon: Icons.settings,
+              text: 'Settings',
+              onTap: () {},
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            UserProfileWidgets(
+              icon: Icons.info,
+              text: 'Information',
+              onTap: () {},
+            ),
+            const Spacer(),
+            UserProfileWidgets(
+              icon: Icons.logout,
+              text: 'Login',
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text(
+                        'Log Out',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      content: const Text('Are you sure you want to log out?'),
+                      actions: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context); 
+                                },
+                                child: const Text(
+                                  'Cancel',
+                                  style: TextStyle(color: Colors.black,fontSize: 20),
+                                ),
+                              ),
+                              const Spacer(),
+                              TextButton(
+                                onPressed: () {
+                                  FirebaseAuth.instance
+                                      .signOut(); 
+                                },
+                                child: const Text(
+                                  'Yes',
+                                  style: TextStyle(color: Colors.red,fontSize: 20),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
           ],
         ),
       ),

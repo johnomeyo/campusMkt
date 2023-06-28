@@ -34,11 +34,11 @@ class UserDataDisplay extends StatelessWidget {
                 ),
                 ListTile(
                   title: const Text('Full Name'),
-                  subtitle: Text(user.fullName ?? ''),
+                  subtitle: Text(user.fullName),
                 ),
                 ListTile(
                   title: const Text('Location'),
-                  subtitle: Text(user.location ?? ''),
+                  subtitle: Text(user.location),
                 ),
               ],
             );
@@ -73,7 +73,7 @@ class UserProvider extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       // Handle any errors that occur during data retrieval
-      print('Error fetching user data: $e');
+      // print('Error fetching user data: $e');
     }
   }
 }

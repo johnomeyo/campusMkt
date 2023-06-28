@@ -60,11 +60,11 @@ class ChatPage extends StatelessWidget {
               child: Container(
                 height: 50,
                 decoration: BoxDecoration(
-                    color: Colors.lightGreenAccent,
+                    color: Colors.blue.shade800,
                     borderRadius: BorderRadius.circular(10)),
                 child: const Padding(
                   padding: EdgeInsets.all(10.0),
-                  child: Icon(Icons.send_outlined),
+                  child: Icon(Icons.arrow_upward_sharp,color: Colors.white,),
                 ),
               ),
             )

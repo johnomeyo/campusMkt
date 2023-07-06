@@ -1,4 +1,3 @@
-import 'package:campus_market_place/components/alpha_widgets.dart';
 import 'package:campus_market_place/components/gamma_widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,7 +23,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         content: TextField(
           autofocus: true,
           decoration: InputDecoration(
-            hintText: "Edit new $field",
+            hintText: "Enter new $field",
           ),
           onChanged: (value) {
             newValue = value;
@@ -38,7 +37,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
               onPressed: () => Navigator.of(context).pop(newValue),
               child: const Text("Save")),
         ],
-        
       ),
     );
     //update the firestore if the user enters a new data
@@ -50,9 +48,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.grey[300],
         appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: const MyBackButton(),
+          elevation: 0,
+          backgroundColor: Colors.grey[300],
+          leading: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+              )),
           centerTitle: true,
           title: Text("Edit Profile",
               style: GoogleFonts.lato(
@@ -73,6 +78,32 @@ class _EditProfilePageState extends State<EditProfilePage> {
               return SingleChildScrollView(
                 child: Column(
                   children: [
+                    const Icon(
+                      Icons.person,
+                      size: 100,
+                      color: Colors.black,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(currentUser.email!),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        children: [
+                          Text(
+                            "My details",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     MyTextBox(
                         text: userData['full name'],
                         sectionName: "Full Name",
@@ -85,6 +116,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         text: userData['email'],
                         sectionName: "Email",
                         onPressed: () => editField("email")),
+                    MyTextBox(
+                        text: userData['password'],
+                        sectionName: "Password",
+                        onPressed: () => editField("password")),
                   ],
                 ),
               );

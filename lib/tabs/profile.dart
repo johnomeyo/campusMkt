@@ -16,6 +16,8 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
   final user = FirebaseAuth.instance.currentUser!;
+  // final currentUser =
+  // FirebaseFirestore.instance.collection("users").doc(user!.email);
   String getCurrentUserId() {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
@@ -81,7 +83,11 @@ class _UserProfileState extends State<UserProfile> {
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: GestureDetector(
-                            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfilePage())),
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const EditProfilePage())),
                               child: Text("Edit Profile",
                                   style: GoogleFonts.lato(
                                     textStyle: const TextStyle(

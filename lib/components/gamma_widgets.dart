@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // ignore: must_be_immutable
 class UserProfileWidgets extends StatelessWidget {
@@ -47,7 +48,11 @@ class UserProfileWidgets extends StatelessWidget {
 }
 
 class MyTextBox extends StatelessWidget {
-  const MyTextBox({super.key, required this.text, required this.sectionName,required this.onPressed});
+  const MyTextBox(
+      {super.key,
+      required this.text,
+      required this.sectionName,
+      required this.onPressed});
   final String text;
   final String sectionName;
   final VoidCallback? onPressed;
@@ -58,7 +63,7 @@ class MyTextBox extends StatelessWidget {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-            color: Colors.grey.shade300,
+            color: Colors.grey.shade50,
             borderRadius: BorderRadius.circular(20)),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -67,14 +72,23 @@ class MyTextBox extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(sectionName),
-                  IconButton(onPressed: onPressed, icon: const Icon(Icons.edit))
+                  Text(sectionName,style: TextStyle(color: Colors.grey.shade400,fontSize: 15),),
+                  IconButton(
+                      onPressed: onPressed, icon: const Icon(Icons.settings))
                 ],
               ),
               const SizedBox(
                 height: 10,
               ),
-              Text(text)
+              Row(
+                children: [
+                  Text(text,
+                      textAlign: TextAlign.left,
+                      style: GoogleFonts.lato(
+                        textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                ],
+              )
             ],
           ),
         ),

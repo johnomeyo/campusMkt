@@ -117,7 +117,7 @@ class _UserProfileState extends State<UserProfile> {
                       const Spacer(),
                       UserProfileWidgets(
                         icon: Icons.logout,
-                        text: 'Login',
+                        text: 'Log Out',
                         onTap: () {
                           showDialog(
                             context: context,

@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Hello ,${user.email!}",
+              Text("Hello ,${user.email!.split("@")[0].toUpperCase()}",
                   style: GoogleFonts.lato(
                     textStyle: const TextStyle(
                         fontSize: 25,

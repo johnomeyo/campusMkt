@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../pages/edit_profile_page.dart';
 import '../pages/user_info_page.dart';
 
 class UserProfile extends StatefulWidget {
@@ -80,6 +81,7 @@ class _UserProfileState extends State<UserProfile> {
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: GestureDetector(
+                            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfilePage())),
                               child: Text("Edit Profile",
                                   style: GoogleFonts.lato(
                                     textStyle: const TextStyle(

@@ -19,21 +19,27 @@ class _SignUpState extends State<SignUp> {
   final locationController = TextEditingController();
   final fullnameController = TextEditingController();
   void signUp() async {
-   try{ await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim());
+    UserCredential userCredential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+            email: emailController.text.trim(),
+            password: passwordController.text.trim());
 
-    await FirebaseFirestore.instance.collection("users").doc().set({
-      "email": emailController.text,
-      "full name": fullnameController.text,
-      "location": locationController.text,
-      "password": passwordController.text,
-    });
-    }
-    catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.toString())));
-    }
+    //  await FirebaseFirestore.instance.collection("users").doc().set({
+    //     "email": emailController.text,
+    //     "full name": fullnameController.text,
+    //     "location": locationController.text,
+    //     "password": passwordController.text,
+    //   });
+  FirebaseFirestore.instance
+    .collection('users')
+    .doc(userCredential.user!.email!)
+    .set({
+  "email": emailController.text,
+  "full name": fullnameController.text,
+  "location": locationController.text,
+  "password": passwordController.text,
+});
+
   }
 
   @override
@@ -207,15 +213,21 @@ class _SignUpState extends State<SignUp> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  LoginOptionTile(imageUrl: "assets/google (2).png"),
-                  SizedBox(width: 20,),
-                  LoginOptionTile(imageUrl: "assets/apple (2).png",),
-                ],
-              )
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    LoginOptionTile(imageUrl: "assets/google (2).png"),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    LoginOptionTile(
+                      imageUrl: "assets/apple (2).png",
+                    ),
+                  ],
+                )
               ],
             ),
           ),

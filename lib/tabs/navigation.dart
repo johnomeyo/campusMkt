@@ -5,6 +5,7 @@ import 'package:campus_market_place/tabs/profile.dart';
 import 'package:campus_market_place/tabs/upload.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -33,28 +34,28 @@ class _MyHomePageState extends State<MyHomePage> {
           iconSize: 24,
           gap: 8,
           activeColor: Colors.black,
-          duration: const Duration(milliseconds: 400),
-          tabBackgroundColor: Colors.grey.shade100,
-          color: Colors.grey.shade700,
+          duration:  const Duration(milliseconds: 400),
+          tabBackgroundColor: Colors.grey.shade200,
+          color: Colors.red,
           tabs: [
             GButton(
-              icon: Icons.home_outlined,
+              icon: FontAwesomeIcons.house,
               iconColor: Colors.grey.shade300,
             ),
             GButton(
-              icon: Icons.favorite_outline,
+              icon: FontAwesomeIcons.heart,
               iconColor: Colors.grey.shade300,
             ),
             GButton(
-              icon: Icons.add,
+              icon:FontAwesomeIcons.plus,
               iconColor: Colors.grey.shade300,
             ),
             GButton(
-              icon: Icons.chat_outlined,
+              icon: FontAwesomeIcons.message,
               iconColor: Colors.grey.shade300,
             ),
             GButton(
-              icon: Icons.person_outline,
+              icon: FontAwesomeIcons.user,
               iconColor: Colors.grey.shade300,
             ),
           ],

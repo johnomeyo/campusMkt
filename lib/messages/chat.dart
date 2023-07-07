@@ -8,33 +8,41 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade50,
-      appBar: AppBar(
-        backgroundColor: Colors.blue.shade300,
-        elevation: 0,
-        leading: const Padding(
-          padding: EdgeInsets.only(left: 8,bottom: 10),
-          child: MyBackButton(),
-        ),
-        centerTitle: true,
-        title:  Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              "Tessa Williams",
-              style: TextStyle(color: Colors.black),
-            ),
-            Text(
-              "online",
-              style: TextStyle(color: Colors.grey.shade200,),
+      backgroundColor: Colors.grey.shade200,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(80),
+        child: AppBar(
+          backgroundColor: Colors.grey.shade300,
+          elevation: 0,
+          leading: const Padding(
+            padding: EdgeInsets.only(left: 8, bottom: 10),
+            child: MyBackButton(),
+          ),
+          centerTitle: true,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Tessa Williams",
+                style: TextStyle(color: Colors.black),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                "online",
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 15),
+              ),
+            ],
+          ),
+          actions: const [
+            Padding(
+              padding: EdgeInsets.only(right: 8, bottom: 10),
+              child: CallButton(),
             ),
           ],
         ),
-        actions: const [ Padding(
-          padding: EdgeInsets.only(right: 8,bottom: 10),
-          child: CallButton(),
-        ),],
       ),
       body: const SafeArea(
         child: SingleChildScrollView(

@@ -1,59 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class Favorites extends StatelessWidget {
+class Favorites extends StatefulWidget {
   const Favorites({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: Consumer<TheIcon>(
-      builder: (BuildContext context, value, Widget? child) {
-        return ListView(
-          children: [
-            ListTile(
-                leading: const Icon(Icons.add),
-                title: const Text("Hello"),
-                trailing: GestureDetector(
-                    onTap: () {
-                      Provider.of<TheIcon>(context, listen: false)
-                          .changeIsFav();
-                    },
-                    child: value.isFav
-                        ? const Icon(Icons.favorite_outline)
-                        : const Icon(Icons.favorite))),
-            ListTile(
-                leading: const Icon(Icons.pin_drop),
-                title: const Text("Kings"),
-                trailing: GestureDetector(
-                    onTap: () {
-                      Provider.of<TheIcon>(context, listen: false)
-                          .changeIsFav();
-                    },
-                    child: value.isFav
-                        ? const Icon(Icons.favorite_outline)
-                        : const Icon(Icons.favorite))),
-            ListTile(
-                leading: const Icon(Icons.add),
-                title: const Text("Hello"),
-                trailing: GestureDetector(
-                    onTap: () {
-                      Provider.of<TheIcon>(context, listen: false)
-                          .changeIsFav();
-                    },
-                    child: value.isFav
-                        ? const Icon(Icons.favorite_outline)
-                        : const Icon(Icons.favorite))),
-          ],
-        );
-      },
-    ));
-  }
+  State<Favorites> createState() => _FavoritesState();
 }
 
-class TheIcon extends ChangeNotifier {
-  bool isFav = true;
-  void changeIsFav() {
-    isFav = !isFav;
-    notifyListeners();
+class _FavoritesState extends State<Favorites> {
+  final List<String> favs = [];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.grey.shade100,
+        appBar: AppBar(
+          backgroundColor: Colors.grey.shade100,
+          elevation: 0,
+          centerTitle: true,
+          title: Text(
+            "Favorites",
+            style: GoogleFonts.lato(
+                textStyle: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold)),
+          ),
+        ),
+        body: favs.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 200,
+                      child: Image.asset(
+                        "assets/oops.png",
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Oops!! You haven't added something to your favorites yet.",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.lato(
+                        textStyle: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            : ListView.builder(
+                itemCount: favs.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(favs[index]),
+                  );
+                }));
   }
 }

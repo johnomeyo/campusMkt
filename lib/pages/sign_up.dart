@@ -23,23 +23,15 @@ class _SignUpState extends State<SignUp> {
         .createUserWithEmailAndPassword(
             email: emailController.text.trim(),
             password: passwordController.text.trim());
-
-    //  await FirebaseFirestore.instance.collection("users").doc().set({
-    //     "email": emailController.text,
-    //     "full name": fullnameController.text,
-    //     "location": locationController.text,
-    //     "password": passwordController.text,
-    //   });
-  FirebaseFirestore.instance
-    .collection('users')
-    .doc(userCredential.user!.email!)
-    .set({
-  "email": emailController.text,
-  "full name": fullnameController.text,
-  "location": locationController.text,
-  "password": passwordController.text,
-});
-
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userCredential.user!.email!)
+        .set({
+      "email": emailController.text,
+      "full name": fullnameController.text,
+      "location": locationController.text,
+      "password": passwordController.text,
+    });
   }
 
   @override
@@ -73,7 +65,6 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 //school textfield
-
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Container(

@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:campus_market_place/components/delta_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UploadPage extends StatefulWidget {
   const UploadPage({super.key});
@@ -16,6 +19,28 @@ class _UploadPageState extends State<UploadPage> {
   final sizeController = TextEditingController();
   final mileageController = TextEditingController();
   final measurementController = TextEditingController();
+  String selectedPath = "";
+
+  selectImageFromGallery() async {
+    XFile? file = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, imageQuality: 10);
+    if (file != null) {
+      return file.path;
+    } else {
+      return '';
+    }
+  }
+
+  selectImageFromCamera() async {
+    XFile? file = await ImagePicker()
+        .pickImage(source: ImageSource.camera, imageQuality: 10);
+    if (file != null) {
+      return file.path;
+    } else {
+      return '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,66 +75,132 @@ class _UploadPageState extends State<UploadPage> {
                 padding: const EdgeInsets.all(16.0),
                 child: Center(
                   child: Container(
-                    height: 300,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.grey[200]),
-                    child: GestureDetector(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                                  title: const Text("Choose an image from.."),
-                                  content: SingleChildScrollView(
-                                    child: Row(
-                                      children: [
-                                        Card(
-                                          child: Column(
-                                            children: [
-                                              Image.asset(
-                                                "assets/gallery.png",
-                                                height: 100,
-                                                width: 100,
-                                              ),
-                                              const Padding(
-                                                padding:
-                                                    EdgeInsets.only(bottom: 10),
-                                                child: Text('Gallery'),
-                                              ),
-                                            ],
+                      height: 300,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.grey[200]),
+                      child: selectedPath == ""
+                          ? GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                          title: Text(
+                                            "Choose an image from...!!!",
+                                            style: GoogleFonts.lato(
+                                                textStyle: const TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
                                           ),
-                                        ),
-                                        Card(
-                                          child: Column(
-                                            children: [
-                                              Image.asset(
-                                                "assets/camera.png",
-                                                height: 100,
-                                                width: 100,
-                                              ),
-                                              const Padding(
-                                                padding:
-                                                    EdgeInsets.only(bottom: 10),
-                                                child: Text('Camera'),
-                                              ),
-                                            ],
+                                          content: SingleChildScrollView(
+                                            child: Row(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () async {
+                                                    selectedPath =
+                                                        await selectImageFromGallery();
+                                                    if (selectedPath != "") {
+                                                      Navigator.pop(context);
+                                                      setState(() {});
+                                                    } else {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              const SnackBar(
+                                                                  content: Text(
+                                                                      "No image selected")));
+                                                    }
+                                                  },
+                                                  child: Card(
+                                                    child: Column(
+                                                      children: [
+                                                        Image.asset(
+                                                          "assets/gallery.png",
+                                                          height: 100,
+                                                          width: 100,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 10),
+                                                          child: Text(
+                                                            'Gallery',
+                                                            style: GoogleFonts.lato(
+                                                                textStyle: const TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500)),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () async {
+                                                    await selectImageFromCamera();
+                                                    if (selectedPath != "") {
+                                                      Navigator.pop(context);
+                                                      setState(() {});
+                                                    } else {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              const SnackBar(
+                                                                  content: Text(
+                                                                      "No image selected")));
+                                                    }
+                                                  },
+                                                  child: Card(
+                                                    child: Column(
+                                                      children: [
+                                                        Image.asset(
+                                                          "assets/camera.png",
+                                                          height: 100,
+                                                          width: 100,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 10),
+                                                          child: Text(
+                                                            'Camera',
+                                                            style: GoogleFonts.lato(
+                                                                textStyle: const TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500)),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ));
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset("assets/post.png"),
-                          const Text("Upload image"),
-                        ],
-                      ),
-                    ),
-                  ),
+                                        ));
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset("assets/post.png"),
+                                  const Text("Upload image"),
+                                ],
+                              ),
+                            )
+                          : Image.file(
+                              File(selectedPath),
+                              fit: BoxFit.cover,
+                            )),
                 ),
               ),
               UploadPageTextBox(

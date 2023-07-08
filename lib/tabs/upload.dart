@@ -12,10 +12,10 @@ class UploadPage extends StatefulWidget {
 class _UploadPageState extends State<UploadPage> {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
-final priceController = TextEditingController();
-final sizeController = TextEditingController();
-final mileageController = TextEditingController();
-final measurementController = TextEditingController();
+  final priceController = TextEditingController();
+  final sizeController = TextEditingController();
+  final mileageController = TextEditingController();
+  final measurementController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +35,10 @@ final measurementController = TextEditingController();
           actions: const [
             Padding(
               padding: EdgeInsets.only(right: 16),
-              child: Icon(Icons.check_circle,color: Colors.black,),
+              child: Icon(
+                Icons.check_circle,
+                color: Colors.black,
+              ),
             )
           ],
         ),
@@ -52,12 +55,59 @@ final measurementController = TextEditingController();
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.grey[200]),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset("assets/post.png"),
-                        const Text("Upload image"),
-                      ],
+                    child: GestureDetector(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: const Text("Choose an image from.."),
+                                  content: SingleChildScrollView(
+                                    child: Row(
+                                      children: [
+                                        Card(
+                                          child: Column(
+                                            children: [
+                                              Image.asset(
+                                                "assets/gallery.png",
+                                                height: 100,
+                                                width: 100,
+                                              ),
+                                              const Padding(
+                                                padding:
+                                                    EdgeInsets.only(bottom: 10),
+                                                child: Text('Gallery'),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Card(
+                                          child: Column(
+                                            children: [
+                                              Image.asset(
+                                                "assets/camera.png",
+                                                height: 100,
+                                                width: 100,
+                                              ),
+                                              const Padding(
+                                                padding:
+                                                    EdgeInsets.only(bottom: 10),
+                                                child: Text('Camera'),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ));
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset("assets/post.png"),
+                          const Text("Upload image"),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -72,12 +122,12 @@ final measurementController = TextEditingController();
                 fieldController: descriptionController,
                 hintText: 'Give a brief description of the item.',
               ),
-               UploadPageTextBox(
+              UploadPageTextBox(
                 field: 'Price',
                 fieldController: priceController,
                 hintText: 'How much is the item?',
               ),
-               UploadPageTextBox(
+              UploadPageTextBox(
                 field: 'Size',
                 fieldController: sizeController,
                 hintText: 'What is the size of the item',
@@ -92,8 +142,10 @@ final measurementController = TextEditingController();
                 fieldController: measurementController,
                 hintText: 'Provide any relevant measurements of the item.',
               ),
-              const SizedBox(height: 20,),
-             const UploadPostButton()
+              const SizedBox(
+                height: 20,
+              ),
+              const UploadPostButton()
             ],
           ),
         ));

@@ -1,4 +1,4 @@
-import 'package:campus_market_place/providers.dart/alpha.dart';
+import 'package:campus_market_place/providers/favorite_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,7 +34,7 @@ class MyFavoriteIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Provider.of<FavIcon>(context, listen: false).changeisFav();
+        // Provider.of<FavIcon>(context, listen: false).dummyFunction();
       },
       child: Container(
         height: 40,
@@ -46,11 +46,11 @@ class MyFavoriteIcon extends StatelessWidget {
         ),
         child: Consumer<FavIcon>(
           builder: (BuildContext context, value, Widget? child) {
-            return Center(
-              child: Icon(
-                value.isFav ? Icons.favorite : Icons.favorite_outline_outlined,
-                color: Colors.black,
-              ),
+            return const Center(
+              child: Icon(Icons.favorite
+                  // value.isFav ? Icons.favorite : Icons.favorite_outline_outlined,
+                  // color: Colors.black,
+                  ),
             );
           },
         ),

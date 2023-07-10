@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -14,8 +15,20 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   final currentUser = FirebaseAuth.instance.currentUser!;
   final userCollection = FirebaseFirestore.instance.collection("users");
+  String selectedPath = "";
+  selectImageFromGallery() async {
+    XFile? file = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, imageQuality: 10);
+    if (file != null) {
+      return file.path;
+    } else {
+      return '';
+    }
+  }
+
   Future<void> editField(String field) async {
     String newValue = "";
+
     await showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -78,10 +91,39 @@ class _EditProfilePageState extends State<EditProfilePage> {
               return SingleChildScrollView(
                 child: Column(
                   children: [
-                    const Icon(
-                      Icons.person,
-                      size: 100,
-                      color: Colors.black,
+                    CircleAvatar(
+                      radius: 60,
+                      backgroundColor: Colors.grey.shade200,
+                      child: Stack(children: [
+                        const Center(
+                          child: Icon(
+                            Icons.person,
+                            color: Colors.black,
+                            size: 50,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            selectedPath = await selectImageFromGallery();
+                            if (selectedPath != "") {
+                              Navigator.pop(context);
+                              setState(() {});
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text("No image selected")));
+                            }
+                          },
+                          child: const Align(
+                            alignment: Alignment.bottomRight,
+                            child: Icon(
+                              Icons.edit,
+                              size: 20,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ]),
                     ),
                     const SizedBox(
                       height: 20,

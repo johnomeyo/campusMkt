@@ -1,8 +1,10 @@
 import 'package:campus_market_place/components/beta_widgets.dart';
 import 'package:campus_market_place/data/products.dart';
+import 'package:campus_market_place/providers/product_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -86,6 +88,7 @@ class _HomePageState extends State<HomePage> {
                               mainAxisSpacing: 10,
                               crossAxisSpacing: 10),
                       itemBuilder: (context, index) {
+                        // final item = value.favoriteItems[index];
                         return ProductCard(
                           product: products[index],
                         );

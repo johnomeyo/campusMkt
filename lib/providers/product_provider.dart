@@ -73,7 +73,7 @@ class Products extends ChangeNotifier {
         imageUrl:
             "https://images.unsplash.com/photo-1589831377283-33cb1cc6bd5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGNhcHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"),
   ];
-  List<FavoriteItemModel> _favoriteItems = [];
+  final List<FavoriteItemModel> _favoriteItems = [];
  List<FavoriteItemModel> get favoriteItems => _favoriteItems;
 
   void toggleFavorites(int index) {

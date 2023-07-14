@@ -1,3 +1,4 @@
+import 'package:campus_market_place/components/delta_widgets.dart';
 import 'package:campus_market_place/components/epsilon_widgets.dart';
 import 'package:campus_market_place/data/products.dart';
 import 'package:flutter/material.dart';
@@ -116,6 +117,8 @@ class PaymentPage extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(height: 20,),
+              const UploadPostButton(text: "Send")
             ],
           ),
         ),

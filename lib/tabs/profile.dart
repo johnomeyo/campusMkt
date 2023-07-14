@@ -16,8 +16,6 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
   final user = FirebaseAuth.instance.currentUser!;
-  // final currentUser =
-  // FirebaseFirestore.instance.collection("users").doc(user!.email);
   String getCurrentUserId() {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
@@ -29,6 +27,7 @@ class _UserProfileState extends State<UserProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade100,
       body: StreamBuilder(
           stream: FirebaseFirestore.instance.collection("users").snapshots(),
           builder: (context, snapshot) {
@@ -78,7 +77,7 @@ class _UserProfileState extends State<UserProfile> {
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color: Colors.blue.shade800,
+                          color: Colors.black,
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),

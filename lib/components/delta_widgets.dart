@@ -45,26 +45,26 @@ class UploadPageTextBox extends StatelessWidget {
 }
 
 class UploadPostButton extends StatelessWidget {
-  const UploadPostButton({super.key});
-
+  const UploadPostButton({super.key, required this.text});
+  final String text;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15),
-          child: Text(
-            "Upload Post",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.lato(
-                textStyle: const TextStyle(fontSize: 20, color: Colors.white,fontWeight: FontWeight.bold)),
-          ),
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.lato(
+              textStyle: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold)),
         ),
       ),
     );

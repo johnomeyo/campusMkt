@@ -19,13 +19,13 @@ class UserProfileWidgets extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                  color: Colors.blue.shade50,
+                  color: Colors.grey.shade300,
                   borderRadius: BorderRadius.circular(10)),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Icon(
                   icon,
-                  color: Colors.blue.shade800,
+                  color: Colors.black,
                 ),
               ),
             ),

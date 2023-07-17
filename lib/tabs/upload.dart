@@ -238,10 +238,10 @@ class _UploadPageState extends State<UploadPage> {
               const SizedBox(
                 height: 20,
               ),
-             const Padding(
-               padding: EdgeInsets.symmetric(horizontal: 16),
-               child: UploadPostButton(text: "Upload Post"),
-             )
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: UploadPostButton(text: "Upload Post"),
+              )
             ],
           ),
         ));

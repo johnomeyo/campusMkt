@@ -32,12 +32,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
     await showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Edit $field"),
+        backgroundColor: Colors.grey.shade300,
+        title: Text(
+          "Edit $field",
+          style: GoogleFonts.lato(
+              textStyle:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+        ),
         content: TextField(
           autofocus: true,
           decoration: InputDecoration(
-            hintText: "Enter new $field",
-          ),
+              hintText: "Enter new $field",
+              hintStyle: GoogleFonts.lato(
+                  textStyle: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 20))),
           onChanged: (value) {
             newValue = value;
           },

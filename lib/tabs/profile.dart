@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../pages/edit_profile_page.dart';
 import '../pages/user_info_page.dart';
+import '../trials/firebase.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
@@ -106,7 +107,10 @@ class _UserProfileState extends State<UserProfile> {
                       UserProfileWidgets(
                         icon: Icons.settings,
                         text: 'Settings',
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => const Basket()));
+                        },
                       ),
                       const SizedBox(
                         height: 10,

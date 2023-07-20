@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../models/favorite_item_model.dart';
-import '../trials/basketModel.dart';
 
 class MyBackButton extends StatelessWidget {
   const MyBackButton({super.key});
@@ -49,11 +48,7 @@ class _MyFavoriteIconState extends State<MyFavoriteIcon> {
     );
     await firestoreInstance.add(favItem.toJson());
   }
-  // addToBasket(String name, String quantity) async {
-  //   final item = BasketItem(id: "id", name: name, quantity: quantity);
 
-  //   await FirebaseFirestore.instance.collection('basket_items').add(item.toJson());
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +57,7 @@ class _MyFavoriteIconState extends State<MyFavoriteIcon> {
         setState(() {
           fav = !fav;
           if (fav = true) {
-            // addToBasket("Airforce 1", "size 42");
-            //addToFavorites();
+            
           }
         });
       },

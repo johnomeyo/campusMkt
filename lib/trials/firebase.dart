@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import 'basketModel.dart';
+import 'basket_model.dart';
 
 class Basket extends StatefulWidget {
   const Basket({super.key});

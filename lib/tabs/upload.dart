@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:campus_market_place/components/delta_widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -42,6 +43,10 @@ class _UploadPageState extends State<UploadPage> {
       return '';
     }
   }
+
+  // uploadPost() async {
+  //   await FirebaseFirestore.instance.collection("posts").add();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -238,9 +243,17 @@ class _UploadPageState extends State<UploadPage> {
               const SizedBox(
                 height: 20,
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: UploadPostButton(text: "Upload Post"),
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context, builder: (context) => const AlertDialog(
+                        content: Text("Upload post?"),
+                      ));
+                },
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: UploadPostButton(text: "Upload Post"),
+                ),
               )
             ],
           ),

@@ -1,6 +1,8 @@
-import 'package:campus_market_place/providers/favorite_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
+import '../models/favorite_item_model.dart';
+import '../trials/basketModel.dart';
 
 class MyBackButton extends StatelessWidget {
   const MyBackButton({super.key});
@@ -27,14 +29,43 @@ class MyBackButton extends StatelessWidget {
   }
 }
 
-class MyFavoriteIcon extends StatelessWidget {
+class MyFavoriteIcon extends StatefulWidget {
   const MyFavoriteIcon({super.key});
+
+  @override
+  State<MyFavoriteIcon> createState() => _MyFavoriteIconState();
+}
+
+class _MyFavoriteIconState extends State<MyFavoriteIcon> {
+  bool fav = false;
+  addToFavorites() async {
+    var firestoreInstance = FirebaseFirestore.instance.collection("favorites");
+    var favItem = FavoriteItemModel(
+      id: "id",
+      name: "Jordan 4",
+      price: "Ksh. 4000",
+      imageUrl:
+          "https://images.unsplash.com/photo-1589831377283-33cb1cc6bd5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGNhcHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
+    );
+    await firestoreInstance.add(favItem.toJson());
+  }
+  // addToBasket(String name, String quantity) async {
+  //   final item = BasketItem(id: "id", name: name, quantity: quantity);
+
+  //   await FirebaseFirestore.instance.collection('basket_items').add(item.toJson());
+  // }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Provider.of<FavIcon>(context, listen: false).dummyFunction();
+        setState(() {
+          fav = !fav;
+          if (fav = true) {
+            // addToBasket("Airforce 1", "size 42");
+            //addToFavorites();
+          }
+        });
       },
       child: Container(
         height: 40,
@@ -44,16 +75,10 @@ class MyFavoriteIcon extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Consumer<FavIcon>(
-          builder: (BuildContext context, value, Widget? child) {
-            return const Center(
-              child: Icon(Icons.favorite
-                  // value.isFav ? Icons.favorite : Icons.favorite_outline_outlined,
-                  // color: Colors.black,
-                  ),
-            );
-          },
-        ),
+        child: Center(
+            child: fav
+                ? const Icon(Icons.favorite)
+                : const Icon(Icons.favorite_border)),
       ),
     );
   }

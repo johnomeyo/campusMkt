@@ -3,6 +3,7 @@ import 'package:campus_market_place/tabs/favorites.dart';
 import 'package:campus_market_place/tabs/home.dart';
 import 'package:campus_market_place/tabs/profile.dart';
 import 'package:campus_market_place/tabs/upload.dart';
+import 'package:campus_market_place/trials/firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,7 +18,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   List<Widget> pages = [
     const HomePage(),
-    const Favorites(),
+    const Basket(),
     const UploadPage(),
     const MyMessages(),
     const UserProfile(),

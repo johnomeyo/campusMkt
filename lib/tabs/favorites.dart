@@ -1,4 +1,5 @@
 import 'package:campus_market_place/models/favorite_item_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,20 +11,43 @@ class Favorites extends StatefulWidget {
 }
 
 class _FavoritesState extends State<Favorites> {
-  List<FavoriteItemModel> favoriteItems = [
-    FavoriteItemModel(
-        id: "id",
-        name: "Jordan 3",
-        price: "Ksh 4500",
-        imageUrl:
-            "https://images.unsplash.com/photo-1646747794382-7f3284527d42?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80"),
-                FavoriteItemModel(
-        id: "id",
-        name: "Jordan 4",
-        price: "Ksh 5500",
-        imageUrl:
-            "https://images.unsplash.com/photo-1646747794382-7f3284527d42?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80"),
-  ];
+  List<FavoriteItemModel> favoriteItems = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  void fetchData() async {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      QuerySnapshot snapshot = await firestore.collection('favorites').get();
+
+      List<FavoriteItemModel> favoritesList = snapshot.docs
+          .map((doc) =>
+              FavoriteItemModel.fromJson(doc.data() as Map<String, dynamic>?))
+          .toList();
+
+      setState(() {
+        favoriteItems = favoritesList;
+      });
+    } catch (e) {
+      print("Error fetching data: $e");
+    }
+  }
+
+  void deleteItem(String itemId) async {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      await firestore.collection('favorites').doc(itemId).delete();
+
+      // After deleting the item, fetch the updated list of favorites
+      fetchData();
+    } catch (e) {
+      print("Error deleting item: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,26 +96,32 @@ class _FavoritesState extends State<Favorites> {
                 itemCount: favoriteItems.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     child: Container(
-                      decoration: BoxDecoration(color: Colors.grey.shade200,borderRadius: BorderRadius.circular(10)),
+                      decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(10)),
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: ListTile(
-                          
                           title: Text(favoriteItems[index].name),
                           leading: Container(
                             height: 80,
                             width: 100,
-                            decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(favoriteItems[index].imageUrl),fit: BoxFit.cover)),
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        favoriteItems[index].imageUrl),
+                                    fit: BoxFit.cover)),
                           ),
                           trailing: IconButton(
                               onPressed: () {
-                                setState(() {
-                                  favoriteItems.remove(favoriteItems[index]);
-                                });
+                                // setState(() {
+                                //   favoriteItems.remove(favoriteItems[index]);
+                                // });
+                                deleteItem(favoriteItems[index].id);
                               },
-                              
                               icon: const Icon(Icons.delete)),
                         ),
                       ),
@@ -100,39 +130,38 @@ class _FavoritesState extends State<Favorites> {
                 }));
   }
 }
-  // @override
-  // void initState() {
-  //   // fetchFavorites();
-  //   FirebaseFirestore.instance
-  //       .collection('favorites')
-  //       .snapshots()
-  //       .listen((favorites) {
-  //     mapFavorites(favorites);
-  //   });
-  //   super.initState();
-  // }
+// @override
+// void initState() {
+//   // fetchFavorites();
+//   FirebaseFirestore.instance
+//       .collection('favorites')
+//       .snapshots()
+//       .listen((favorites) {
+//     mapFavorites(favorites);
+//   });
+//   super.initState();
+// }
 
-  // fetchFavorites() async {
-  //   var favorites =
-  //       await FirebaseFirestore.instance.collection('favorites').get();
-  //   mapFavorites(favorites);
-  // }
+// fetchFavorites() async {
+//   var favorites =
+//       await FirebaseFirestore.instance.collection('favorites').get();
+//   mapFavorites(favorites);
+// }
 
-  // removeFav(String id) async {
-  //   FirebaseFirestore.instance.collection("favorites").doc(id).delete();
-  // }
+// removeFav(String id) async {
+//   FirebaseFirestore.instance.collection("favorites").doc(id).delete();
+// }
 
-  // mapFavorites(QuerySnapshot<Map<String, dynamic>> favorites) async {
-  //   var list = favorites.docs
-  //       .map((favoriteItem) => FavoriteItemModel(
-  //             id: favoriteItem.id,
-  //             name: favoriteItem['name'],
-  //             price: favoriteItem['price'],
-  //             imageUrl: favoriteItem['imageUrl'],
-  //           ))
-  //       .toList();
-  //   setState(() {
-  //     favoriteItems = list;
-  //   });
-  // }
-  
+// mapFavorites(QuerySnapshot<Map<String, dynamic>> favorites) async {
+//   var list = favorites.docs
+//       .map((favoriteItem) => FavoriteItemModel(
+//             id: favoriteItem.id,
+//             name: favoriteItem['name'],
+//             price: favoriteItem['price'],
+//             imageUrl: favoriteItem['imageUrl'],
+//           ))
+//       .toList();
+//   setState(() {
+//     favoriteItems = list;
+//   });
+// }

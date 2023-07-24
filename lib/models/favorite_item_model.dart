@@ -1,15 +1,3 @@
-// To parse this JSON data, do
-//
-//     final favoriteItemModel = favoriteItemModelFromJson(jsonString);
-
-import 'dart:convert';
-
-FavoriteItemModel favoriteItemModelFromJson(String str) =>
-    FavoriteItemModel.fromJson(json.decode(str));
-
-String favoriteItemModelToJson(FavoriteItemModel data) =>
-    json.encode(data.toJson());
-
 class FavoriteItemModel {
   String id;
   String name;
@@ -23,17 +11,19 @@ class FavoriteItemModel {
     required this.imageUrl,
   });
 
-  factory FavoriteItemModel.fromJson(Map<String, dynamic> json) =>
-      FavoriteItemModel(
-        name: json["name"],
-        price: json["price"],
-        imageUrl: json["imageUrl"],
-        id: json["id"],
-      );
+  factory FavoriteItemModel.fromJson(Map<String, dynamic>? json) {
+    return FavoriteItemModel(
+      name: json?["name"] ?? '',
+      price: json?["price"] ?? '',
+      imageUrl: json?["imageUrl"] ?? '',
+      id: json?["id"] ?? '',
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "name": name,
         "price": price,
         "imageUrl": imageUrl,
+        "id": id,
       };
 }

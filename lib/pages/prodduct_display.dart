@@ -22,17 +22,17 @@ class ProductDisplayPage extends StatelessWidget {
                     bottomEnd: Radius.circular(20)),
                 color: Colors.grey,
                 image: DecorationImage(
-                    image: NetworkImage(product.imageUrl
-                        ),
-                    fit: BoxFit.cover)),
-            child:  const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                    image: NetworkImage(product.imageUrl), fit: BoxFit.cover)),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  MyBackButton(),
-                  MyFavoriteIcon(),
+                  const MyBackButton(),
+                  MyFavoriteIcon(
+                    product: product,
+                  ),
                 ],
               ),
             ),
@@ -105,7 +105,9 @@ class ProductDisplayPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>  PaymentPage(product: product,)));
+                        builder: (context) => PaymentPage(
+                              product: product,
+                            )));
               },
               child: Container(
                 decoration: BoxDecoration(

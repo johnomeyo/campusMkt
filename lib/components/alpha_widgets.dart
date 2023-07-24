@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../data/products.dart';
 import '../models/favorite_item_model.dart';
 
 class MyBackButton extends StatelessWidget {
@@ -29,26 +30,36 @@ class MyBackButton extends StatelessWidget {
 }
 
 class MyFavoriteIcon extends StatefulWidget {
-  const MyFavoriteIcon({super.key});
-
+  const MyFavoriteIcon({super.key, required this.product});
+  final Product product;
   @override
   State<MyFavoriteIcon> createState() => _MyFavoriteIconState();
 }
 
 class _MyFavoriteIconState extends State<MyFavoriteIcon> {
+  FavoriteItemModel newItem = FavoriteItemModel(
+  id: '3',
+  name: 'New Item',
+  price: '30.00',
+  imageUrl: 'https://plus.unsplash.com/premium_photo-1670509096112-995f9414ca01?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1032&q=80', 
+);
   bool fav = false;
-  addToFavorites() async {
-    var firestoreInstance = FirebaseFirestore.instance.collection("favorites");
-    var favItem = FavoriteItemModel(
-      id: "id",
-      name: "Jordan 4",
-      price: "Ksh. 4000",
-      imageUrl:
-          "https://images.unsplash.com/photo-1589831377283-33cb1cc6bd5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGNhcHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
-    );
-    await firestoreInstance.add(favItem.toJson());
-  }
+  void addToFavorites(FavoriteItemModel newItem) async {
+    try {
+      // Get the Firestore instance
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+      // Create a map from the new item using toJson() method
+      Map<String, dynamic> itemData = newItem.toJson();
+
+      // Add the new item to the 'favorites' collection
+      await firestore.collection('favorites').add(itemData);
+
+      print("New item added to 'favorites' collection successfully!");
+    } catch (e) {
+      print("Error adding item to collection: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +67,9 @@ class _MyFavoriteIconState extends State<MyFavoriteIcon> {
       onTap: () {
         setState(() {
           fav = !fav;
-          if (fav = true) {
-            
-          }
+          // if (fav = true) {}
         });
+        addToFavorites(newItem);
       },
       child: Container(
         height: 40,

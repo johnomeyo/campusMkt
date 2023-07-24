@@ -55,15 +55,15 @@ class ProductCard extends StatelessWidget {
                         product.imageUrl,
                       ),
                       fit: BoxFit.cover)),
-              child:   const Padding(
-                padding: EdgeInsets.all(8.0),
+              child:    Padding(
+                padding:const EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        MyFavoriteIcon(),
+                        MyFavoriteIcon(product: product,),
                       ],
                     ),
                   ],

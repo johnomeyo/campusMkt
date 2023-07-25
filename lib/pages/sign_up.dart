@@ -19,19 +19,23 @@ class _SignUpState extends State<SignUp> {
   final locationController = TextEditingController();
   final fullnameController = TextEditingController();
   void signUp() async {
-    UserCredential userCredential = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
-            email: emailController.text.trim(),
-            password: passwordController.text.trim());
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(userCredential.user!.email!)
-        .set({
-      "email": emailController.text,
-      "full name": fullnameController.text,
-      "location": locationController.text,
-      "password": passwordController.text,
-    });
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: emailController.text.trim(),
+              password: passwordController.text.trim());
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user!.email!)
+          .set({
+        "email": emailController.text,
+        "full name": fullnameController.text,
+        "location": locationController.text,
+        "password": passwordController.text,
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error $e occured")));
+    }
   }
 
   @override

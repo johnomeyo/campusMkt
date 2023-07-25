@@ -38,26 +38,27 @@ class MyFavoriteIcon extends StatefulWidget {
 
 class _MyFavoriteIconState extends State<MyFavoriteIcon> {
   FavoriteItemModel newItem = FavoriteItemModel(
-  id: '3',
-  name: 'New Item',
-  price: '30.00',
-  imageUrl: 'https://plus.unsplash.com/premium_photo-1670509096112-995f9414ca01?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1032&q=80', 
-);
+    id: '3',
+    name: 'New Item',
+    price: '30.00',
+    imageUrl:
+        'https://plus.unsplash.com/premium_photo-1670509096112-995f9414ca01?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1032&q=80',
+  );
   bool fav = false;
   void addToFavorites(FavoriteItemModel newItem) async {
     try {
-      // Get the Firestore instance
       FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-      // Create a map from the new item using toJson() method
       Map<String, dynamic> itemData = newItem.toJson();
-
-      // Add the new item to the 'favorites' collection
       await firestore.collection('favorites').add(itemData);
 
-      print("New item added to 'favorites' collection successfully!");
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Succesfully added to favorites"),
+        duration: Duration(seconds: 2),
+      ));
     } catch (e) {
-      print("Error adding item to collection: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error adding item to collection: $e")));
     }
   }
 
@@ -67,9 +68,9 @@ class _MyFavoriteIconState extends State<MyFavoriteIcon> {
       onTap: () {
         setState(() {
           fav = !fav;
-          // if (fav = true) {}
+          if (fav = true) {}
+          addToFavorites(newItem);
         });
-        addToFavorites(newItem);
       },
       child: Container(
         height: 40,

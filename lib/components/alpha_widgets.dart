@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../data/products.dart';
 import '../models/favorite_item_model.dart';
@@ -37,31 +39,55 @@ class MyFavoriteIcon extends StatefulWidget {
 }
 
 class _MyFavoriteIconState extends State<MyFavoriteIcon> {
-  FavoriteItemModel newItem = FavoriteItemModel(
-    id: '3',
-    name: 'New Item',
-    price: '30.00',
-    imageUrl:
-        'https://plus.unsplash.com/premium_photo-1670509096112-995f9414ca01?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1032&q=80',
-  );
+  // 
   bool fav = false;
-  void addToFavorites(FavoriteItemModel newItem) async {
-    try {
-      FirebaseFirestore firestore = FirebaseFirestore.instance;
-      Map<String, dynamic> itemData = newItem.toJson();
-      await firestore.collection('favorites').add(itemData);
+void addToFavorites(Product product) async {
+  try {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Succesfully added to favorites"),
-        duration: Duration(seconds: 2),
-      ));
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Error adding item to collection: $e")));
+    // Create a new FavoriteItemModel instance using the properties of the Product
+    FavoriteItemModel newItem = FavoriteItemModel(
+      id: "product.id",
+      name: product.name,
+      price: product.price,
+      imageUrl: product.imageUrl,
+    );
+
+    Map<String, dynamic> itemData = newItem.toJson();
+
+    // Get the current user's email 
+    String? userEmail = FirebaseAuth.instance.currentUser?.email;
+    if (userEmail == null) {
+      print("User not authenticated");
+      return;
     }
-  }
 
+    // Use the user's email as the document ID in the "users" collection
+    DocumentReference userRef = firestore.collection('users').doc(userEmail);
+
+    // Create or access the "favorites" subcollection for the user
+    CollectionReference favoritesCollection = userRef.collection('favorites');
+
+    // Add the new item to the "favorites" subcollection
+    await favoritesCollection.add(itemData);
+setState(() {
+      fav = true;
+    });
+    Fluttertoast.showToast(
+      msg: "Successfully added to favorites",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.TOP,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black54,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Error adding item to collection: $e")),
+    );
+  }
+}
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -69,7 +95,7 @@ class _MyFavoriteIconState extends State<MyFavoriteIcon> {
         setState(() {
           fav = !fav;
           if (fav = true) {}
-          addToFavorites(newItem);
+          addToFavorites(widget.product);
         });
       },
       child: Container(

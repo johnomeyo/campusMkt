@@ -1,5 +1,6 @@
 import 'package:campus_market_place/models/favorite_item_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -22,7 +23,17 @@ class _FavoritesState extends State<Favorites> {
   void fetchData() async {
     try {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
-      QuerySnapshot snapshot = await firestore.collection('favorites').get();
+      String? userEmail = FirebaseAuth.instance.currentUser?.email;
+      if (userEmail == null) {
+        // If the user is not authenticated, you can handle it accordingly
+        print("User not authenticated");
+        return;
+      }
+      // Use the user's email as the document ID in the "users" collection
+      DocumentReference userRef = firestore.collection('users').doc(userEmail);
+
+      // Access the "favorites" subcollection for the user
+      QuerySnapshot snapshot = await userRef.collection('favorites').get();
 
       List<FavoriteItemModel> favoritesList = snapshot.docs
           .map((doc) =>
@@ -40,9 +51,14 @@ class _FavoritesState extends State<Favorites> {
   void deleteItem(String itemId) async {
     try {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
-      await firestore.collection('favorites').doc(itemId).delete();
-
-      // After deleting the item, fetch the updated list of favorites
+      String? userEmail = FirebaseAuth.instance.currentUser?.email;
+      if (userEmail == null) {
+        print("User not authenticated");
+        return;
+      }
+      DocumentReference userRef = firestore.collection('users').doc(userEmail);
+      CollectionReference favoritesCollection = userRef.collection('favorites');
+      await favoritesCollection.doc(itemId).delete();
       fetchData();
     } catch (e) {
       print("Error deleting item: $e");
@@ -117,9 +133,6 @@ class _FavoritesState extends State<Favorites> {
                           ),
                           trailing: IconButton(
                               onPressed: () {
-                                // setState(() {
-                                //   favoriteItems.remove(favoriteItems[index]);
-                                // });
                                 deleteItem(favoriteItems[index].id);
                               },
                               icon: const Icon(Icons.delete)),
@@ -130,38 +143,3 @@ class _FavoritesState extends State<Favorites> {
                 }));
   }
 }
-// @override
-// void initState() {
-//   // fetchFavorites();
-//   FirebaseFirestore.instance
-//       .collection('favorites')
-//       .snapshots()
-//       .listen((favorites) {
-//     mapFavorites(favorites);
-//   });
-//   super.initState();
-// }
-
-// fetchFavorites() async {
-//   var favorites =
-//       await FirebaseFirestore.instance.collection('favorites').get();
-//   mapFavorites(favorites);
-// }
-
-// removeFav(String id) async {
-//   FirebaseFirestore.instance.collection("favorites").doc(id).delete();
-// }
-
-// mapFavorites(QuerySnapshot<Map<String, dynamic>> favorites) async {
-//   var list = favorites.docs
-//       .map((favoriteItem) => FavoriteItemModel(
-//             id: favoriteItem.id,
-//             name: favoriteItem['name'],
-//             price: favoriteItem['price'],
-//             imageUrl: favoriteItem['imageUrl'],
-//           ))
-//       .toList();
-//   setState(() {
-//     favoriteItems = list;
-//   });
-// }

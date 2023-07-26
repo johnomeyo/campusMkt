@@ -1,4 +1,5 @@
 import 'package:campus_market_place/components/alpha_widgets.dart';
+import 'package:campus_market_place/messages/sent_message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,12 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final mesageController = TextEditingController();
+  List<String> messages = [];
+  @override
+  void dispose() {
+    mesageController.dispose();
+    super.dispose();
+  }
 
   void sendMessage(String message) async {
     try {
@@ -18,6 +25,7 @@ class _ChatPageState extends State<ChatPage> {
       await firebase.add({
         "text": message,
       });
+      mesageController.clear();
       print("message sent successfully");
     } catch (e) {
       print("error ${e.toString()}");
@@ -91,13 +99,9 @@ class _ChatPageState extends State<ChatPage> {
           ],
         ),
       ),
-      body: const SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [],
-          ),
-        ),
-      ),
+      body: ListView.builder(
+          itemCount: messages.length,
+          itemBuilder: (context, index) => SentMessage(text: messages[index])),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(
@@ -129,6 +133,12 @@ class _ChatPageState extends State<ChatPage> {
               child: GestureDetector(
                 onTap: () {
                   sendMessage(mesageController.text);
+                  // messages.add(mesageController.text);
+                  // setState(() {
+                  //   messages = messages;
+                  // });
+                  mesageController.clear();
+                  print(messages);
                 },
                 child: Container(
                   height: 50,

@@ -26,9 +26,9 @@ class _ChatPageState extends State<ChatPage> {
         "text": message,
       });
       mesageController.clear();
-      print("message sent successfully");
     } catch (e) {
-      print("error ${e.toString()}");
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("error ${e.toString()}")));
     }
   }
 
@@ -39,13 +39,13 @@ class _ChatPageState extends State<ChatPage> {
     messagesCollection.get().then((querySnapshot) {
       if (querySnapshot.size > 0) {
         // Loop through the documents and access the data
-        querySnapshot.docs.forEach((document) {
+        for (var document in querySnapshot.docs) {
           // Explicitly cast the data to Map<String, dynamic>
           Map<String, dynamic> data = document.data() as Map<String, dynamic>;
           // Example: Accessing the 'message' field
           String message = data['message'];
           print("Message: $message");
-        });
+        }
       } else {
         print("No messages found.");
       }

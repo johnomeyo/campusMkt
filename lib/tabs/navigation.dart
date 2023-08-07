@@ -1,9 +1,9 @@
+// import 'package:campus_market_place/messages/my_messages.dart';
 import 'package:campus_market_place/messages/my_messages.dart';
 import 'package:campus_market_place/tabs/favorites.dart';
 import 'package:campus_market_place/tabs/home.dart';
 import 'package:campus_market_place/tabs/profile.dart';
 import 'package:campus_market_place/tabs/upload.dart';
-import 'package:campus_market_place/trials/chat_trial.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -25,9 +25,7 @@ class _MyHomePageState extends State<MyHomePage> {
     const HomePage(),
     const Favorites(),
     const UploadPage(),
-    ChatScreen(
-      currentUserUid: userEmail!,
-    ),
+     const MyMessages(),
     const UserProfile(),
   ];
 

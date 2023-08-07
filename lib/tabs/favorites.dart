@@ -16,8 +16,8 @@ class _FavoritesState extends State<Favorites> {
 
   @override
   void initState() {
-    super.initState();
     fetchData();
+    super.initState();
   }
 
   void fetchData() async {

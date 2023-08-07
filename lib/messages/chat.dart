@@ -1,6 +1,7 @@
 import 'package:campus_market_place/components/alpha_widgets.dart';
 import 'package:campus_market_place/messages/sent_message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatefulWidget {
@@ -12,52 +13,13 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final mesageController = TextEditingController();
-  List<String> messages = [];
-  @override
-  void dispose() {
-    mesageController.dispose();
-    super.dispose();
-  }
 
-  void sendMessage(String message) async {
-    try {
-      var firebase = FirebaseFirestore.instance.collection("messages");
-      await firebase.add({
-        "text": message,
-      });
-      mesageController.clear();
-    } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("error ${e.toString()}")));
-    }
-  }
-
-  void fetchMessages() {
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference messagesCollection = firestore.collection('messages');
-
-    messagesCollection.get().then((querySnapshot) {
-      if (querySnapshot.size > 0) {
-        // Loop through the documents and access the data
-        for (var document in querySnapshot.docs) {
-          // Explicitly cast the data to Map<String, dynamic>
-          Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-          // Example: Accessing the 'message' field
-          String message = data['message'];
-          print("Message: $message");
-        }
-      } else {
-        print("No messages found.");
-      }
-    }).catchError((error) {
-      print("Error getting messages: $error");
+  sendMessage(String message) async {
+    var messageId = FirebaseAuth.instance.currentUser!.email;
+    await FirebaseFirestore.instance.collection("messages").add({
+      "text": message,
+      "messageId": messageId,
     });
-  }
-
-  @override
-  void initState() {
-    fetchMessages();
-    super.initState();
   }
 
   @override
@@ -99,9 +61,26 @@ class _ChatPageState extends State<ChatPage> {
           ],
         ),
       ),
-      body: ListView.builder(
-          itemCount: messages.length,
-          itemBuilder: (context, index) => SentMessage(text: messages[index])),
+      body: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection("messages").snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return const Text("Error loading messages");
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Text("Loading...");
+            }
+            var docs = snapshot.data!.docs;
+            return ListView.builder(
+                itemCount: docs.length,
+                itemBuilder: (context, index) {
+                  if (docs[index]['messageId'] ==
+                      FirebaseAuth.instance.currentUser!.email) {
+                    return SentMessage(text: docs[index]['text']);
+                  } else {
+                    return ReceivedMessage(text: docs[index]['text']);
+                  }
+                });
+          }),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(
@@ -132,13 +111,18 @@ class _ChatPageState extends State<ChatPage> {
               padding: const EdgeInsets.all(10.0),
               child: GestureDetector(
                 onTap: () {
-                  sendMessage(mesageController.text);
+                  if (mesageController.text.isNotEmpty) {
+                    sendMessage(mesageController.text);
+                    mesageController.clear();
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Message cant be empty")));
+                  }
+                  // sendMessage(mesageController.text);
                   // messages.add(mesageController.text);
                   // setState(() {
                   //   messages = messages;
                   // });
-                  mesageController.clear();
-                  print(messages);
                 },
                 child: Container(
                   height: 50,

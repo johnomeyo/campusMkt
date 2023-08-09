@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../components/alpha_widgets.dart';
 import 'chat.dart';
 
 class MyMessages extends StatefulWidget {
@@ -34,14 +32,16 @@ class _MyMessagesState extends State<MyMessages> {
               }
               var docs = snapshot.data!.docs;
               return ListView.builder(
-                itemCount: docs.length,
-                itemBuilder: (context, index) => GestureDetector(
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) =>const ChatPage() )),
-                  child: ListTile(
-                    title: Text("Item $index"),
-                    
-                  ),
-                ) );
+                  itemCount: docs.length,
+                  itemBuilder: (context, index) => GestureDetector(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ChatPage())),
+                        child: ListTile(
+                          title: Text("Item $index"),
+                        ),
+                      ));
             }));
   }
 }

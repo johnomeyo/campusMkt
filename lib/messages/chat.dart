@@ -26,13 +26,14 @@ class _ChatPageState extends State<ChatPage> {
     final parentRef =
         FirebaseFirestore.instance.collection("users").doc(messageId);
     final subCollectionRef = parentRef.collection("conversations");
-    // await FirebaseFirestore.instance.collection("messages").add({
-    //   "text": message,
-    //   "messageId": messageId,
-    // });
-    await subCollectionRef.add({
+    final parentDocRef = await subCollectionRef.add({
+      "field1": "value1",
+      "field2": "value2",
+    });
+    final messagesCollectionRef = parentDocRef.collection("messages");
+    await messagesCollectionRef.add({
       "text": message,
-      "messageId":messageId,
+      "messageId": messageId,
     });
   }
 

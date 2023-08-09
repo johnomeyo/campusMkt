@@ -13,12 +13,26 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final mesageController = TextEditingController();
+  addSubcollection(
+    String id,
+  ) async {
+    final parentRef = FirebaseFirestore.instance.collection("users").doc(id);
+    final subCollectionRef = parentRef.collection("conversations");
+    subCollectionRef.add({});
+  }
 
   sendMessage(String message) async {
     var messageId = FirebaseAuth.instance.currentUser!.email;
-    await FirebaseFirestore.instance.collection("messages").add({
+    final parentRef =
+        FirebaseFirestore.instance.collection("users").doc(messageId);
+    final subCollectionRef = parentRef.collection("conversations");
+    // await FirebaseFirestore.instance.collection("messages").add({
+    //   "text": message,
+    //   "messageId": messageId,
+    // });
+    await subCollectionRef.add({
       "text": message,
-      "messageId": messageId,
+      "messageId":messageId,
     });
   }
 
@@ -118,11 +132,6 @@ class _ChatPageState extends State<ChatPage> {
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text("Message cant be empty")));
                   }
-                  // sendMessage(mesageController.text);
-                  // messages.add(mesageController.text);
-                  // setState(() {
-                  //   messages = messages;
-                  // });
                 },
                 child: Container(
                   height: 50,
@@ -145,3 +154,5 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 }
+//users collection that has the logged in users
+//create a subcollection called conversations; that has the individual messages``

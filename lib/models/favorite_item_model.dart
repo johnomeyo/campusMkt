@@ -27,3 +27,5 @@ class FavoriteItemModel {
         "id": id,
       };
 }
+
+
